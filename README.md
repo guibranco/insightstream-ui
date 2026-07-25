@@ -26,7 +26,7 @@ InsightStream is a modern, high-efficiency web application designed to help tech
 
 ### 📋 Prerequisites
 
-- **Node.js** (v18 or higher recommended)
+- **Node.js** (v24 or higher)
 - **npm** or **yarn**
 
 ### 💻 Installation & Setup
