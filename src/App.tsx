@@ -20,8 +20,8 @@ const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
-        <div className="w-8 h-8 border-3 border-brand-purple border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0A0B0D]">
+        <div className="w-8 h-8 border-3 border-[#79378B] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -31,7 +31,7 @@ const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 flex flex-col transition-colors duration-200">
+    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#0A0B0D] dark:text-gray-200 flex flex-col transition-colors duration-200">
       <Navbar />
       <main className="flex-1">{children}</main>
       <MobileTabBar />

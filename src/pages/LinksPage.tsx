@@ -151,24 +151,24 @@ export const LinksPage: React.FC<LinksPageProps> = ({ statusParam }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 pb-24 md:pb-12">
       {/* Header & Status Tabs */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-white/10">
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Newsletter Articles
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-gray-400 mt-0.5">
             Triage, sort, and search links extracted from Medium newsletter emails.
           </p>
         </div>
 
         {/* Status Navigation Tabs */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-200/60 dark:border-slate-800 self-start md:self-auto overflow-x-auto max-w-full">
+        <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#16191F] p-1.5 rounded-2xl border border-slate-200/60 dark:border-white/10 self-start md:self-auto overflow-x-auto max-w-full">
           <button
             onClick={() => handleStatusTabChange('awaiting')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
               currentStatus === 'awaiting'
-                ? 'bg-white dark:bg-slate-800 text-brand-purple dark:text-purple-300 shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-[#79378B]/20 text-[#79378B] dark:text-[#93CD3F] border border-[#79378B]/30 shadow-xs'
+                : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Inbox className="w-3.5 h-3.5" />
@@ -177,10 +177,10 @@ export const LinksPage: React.FC<LinksPageProps> = ({ statusParam }) => {
 
           <button
             onClick={() => handleStatusTabChange('liked')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
               currentStatus === 'liked'
-                ? 'bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 shadow-xs'
+                : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Heart className="w-3.5 h-3.5" />
@@ -189,10 +189,10 @@ export const LinksPage: React.FC<LinksPageProps> = ({ statusParam }) => {
 
           <button
             onClick={() => handleStatusTabChange('discarded')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
               currentStatus === 'discarded'
-                ? 'bg-white dark:bg-slate-800 text-rose-600 dark:text-rose-400 shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-500/30 shadow-xs'
+                : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -201,10 +201,10 @@ export const LinksPage: React.FC<LinksPageProps> = ({ statusParam }) => {
 
           <button
             onClick={() => handleStatusTabChange('discarded_after_review')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
               currentStatus === 'discarded_after_review'
-                ? 'bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-400 shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-500/30 shadow-xs'
+                : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <EyeOff className="w-3.5 h-3.5" />
@@ -223,7 +223,7 @@ export const LinksPage: React.FC<LinksPageProps> = ({ statusParam }) => {
             value={searchQuery}
             onChange={(e) => handleSearchChange(e.target.value)}
             placeholder="Search titles, authors, or domain URLs..."
-            className="w-full pl-10 pr-9 py-2 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-brand-purple transition-all"
+            className="w-full pl-10 pr-9 py-2 bg-white dark:bg-[#16191F] border border-slate-200/80 dark:border-white/10 rounded-full text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:border-[#79378B] transition-all"
           />
           {searchQuery && (
             <button
@@ -237,7 +237,7 @@ export const LinksPage: React.FC<LinksPageProps> = ({ statusParam }) => {
 
         <div className="flex items-center gap-2 justify-between sm:justify-end">
           {/* Sort Dropdown */}
-          <div className="relative flex items-center gap-1.5 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+          <div className="relative flex items-center gap-1.5 bg-white dark:bg-[#16191F] px-3 py-1.5 rounded-xl border border-slate-200/80 dark:border-white/10 text-xs text-slate-700 dark:text-gray-300">
             <ArrowUpDown className="w-3.5 h-3.5 text-slate-400" />
             <span className="font-semibold text-slate-400 hidden sm:inline">Sort:</span>
             <select
@@ -245,30 +245,30 @@ export const LinksPage: React.FC<LinksPageProps> = ({ statusParam }) => {
               onChange={(e) => setSortOption(e.target.value)}
               className="bg-transparent focus:outline-hidden cursor-pointer font-medium text-slate-900 dark:text-white"
             >
-              <option value="priority" className="bg-white dark:bg-slate-900">
+              <option value="priority" className="bg-white dark:bg-[#16191F]">
                 Priority Score (High-Low)
               </option>
-              <option value="newest" className="bg-white dark:bg-slate-900">
+              <option value="newest" className="bg-white dark:bg-[#16191F]">
                 Newest First
               </option>
-              <option value="oldest" className="bg-white dark:bg-slate-900">
+              <option value="oldest" className="bg-white dark:bg-[#16191F]">
                 Oldest First
               </option>
-              <option value="title" className="bg-white dark:bg-slate-900">
+              <option value="title" className="bg-white dark:bg-[#16191F]">
                 Title Alphabetical
               </option>
             </select>
           </div>
 
           {/* Grid / List View Toggle */}
-          <div className="flex items-center bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200/60 dark:border-slate-800">
+          <div className="flex items-center bg-slate-100 dark:bg-[#16191F] p-1 rounded-xl border border-slate-200/60 dark:border-white/10">
             <button
               onClick={() => setViewMode('grid')}
               aria-label="Grid View"
               title="Grid View"
               className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'grid'
-                  ? 'bg-white dark:bg-slate-800 text-brand-purple dark:text-purple-300 shadow-2xs'
+                  ? 'bg-white dark:bg-[#79378B]/20 text-[#79378B] dark:text-[#93CD3F] shadow-2xs'
                   : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
               }`}
             >
@@ -280,7 +280,7 @@ export const LinksPage: React.FC<LinksPageProps> = ({ statusParam }) => {
               title="List View"
               className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'list'
-                  ? 'bg-white dark:bg-slate-800 text-brand-purple dark:text-purple-300 shadow-2xs'
+                  ? 'bg-white dark:bg-[#79378B]/20 text-[#79378B] dark:text-[#93CD3F] shadow-2xs'
                   : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
               }`}
             >

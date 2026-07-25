@@ -123,32 +123,32 @@ export const DashboardPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-24 md:pb-12">
       {/* Greeting Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-brand-purple/10 via-brand-purple/5 to-transparent p-6 rounded-3xl border border-brand-purple/20">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#79378B]/20 via-[#79378B]/10 to-[#16191F] p-6 rounded-3xl border border-[#79378B]/30 shadow-lg">
         <div>
-          <div className="inline-flex items-center gap-2 text-xs font-bold text-brand-purple dark:text-purple-300 uppercase tracking-wider mb-1">
-            <Sparkles className="w-3.5 h-3.5 text-brand-lime" />
+          <div className="inline-flex items-center gap-2 text-xs font-bold text-[#93CD3F] uppercase tracking-widest mb-1">
+            <Sparkles className="w-3.5 h-3.5 text-[#93CD3F]" />
             Curator Dashboard
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             {greeting}, Reader
           </h1>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+          <p className="text-sm text-slate-600 dark:text-gray-400 mt-1">
             Here is your daily Medium newsletter breakdown and AI recommended reading queue.
           </p>
         </div>
 
         <a
           href="#/links/awaiting"
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-brand-purple hover:bg-brand-purple-dark text-white text-xs font-bold shadow-md hover:shadow-lg transition-all duration-200 shrink-0"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-[#79378B] hover:bg-[#5e2b6c] text-white text-xs font-bold shadow-md hover:shadow-lg transition-all duration-200 shrink-0"
         >
           <span>Start Triaging</span>
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-4 h-4 text-[#93CD3F]" />
         </a>
       </div>
 
       {/* 4 Stat Cards */}
       <section aria-label="Overview metrics">
-        <h2 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">
+        <h2 className="text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-widest mb-4">
           Newsletter Status Overview
         </h2>
 
@@ -165,88 +165,96 @@ export const DashboardPage: React.FC = () => {
               {/* Awaiting Card */}
               <a
                 href="#/links/awaiting"
-                className="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-2xs hover:shadow-md hover:border-purple-300 dark:hover:border-purple-700 transition-all duration-200"
+                className="group bg-white dark:bg-[#16191F] rounded-2xl p-5 border border-slate-200/80 dark:border-white/5 hover:border-[#79378B]/40 transition-all duration-200 shadow-xs"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  <span className="text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
                     Awaiting
                   </span>
-                  <div className="p-2 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-brand-purple dark:text-purple-300 group-hover:scale-110 transition-transform">
+                  <div className="p-2 rounded-xl bg-[#79378B]/10 text-[#79378B] dark:text-[#93CD3F] group-hover:scale-110 transition-transform">
                     <Inbox className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-slate-900 dark:text-white mb-1">
-                  {stats?.statusCounts.awaiting ?? 0}
-                </div>
-                <div className="text-xs font-medium text-brand-purple dark:text-purple-400 flex items-center gap-1">
-                  <span>Pending triage</span>
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                <div className="flex items-end justify-between">
+                  <span className="text-3xl font-bold text-slate-900 dark:text-white">
+                    {stats?.statusCounts.awaiting ?? 0}
+                  </span>
+                  <span className="text-[#93CD3F] text-xs font-medium mb-1 flex items-center gap-1">
+                    <span>Pending</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </div>
               </a>
 
               {/* Liked Card */}
               <a
                 href="#/links/liked"
-                className="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-2xs hover:shadow-md hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-200"
+                className="group bg-white dark:bg-[#16191F] rounded-2xl p-5 border border-slate-200/80 dark:border-white/5 hover:border-emerald-500/40 transition-all duration-200 shadow-xs"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  <span className="text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
                     Liked
                   </span>
-                  <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
+                  <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
                     <Heart className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-slate-900 dark:text-white mb-1">
-                  {stats?.statusCounts.liked ?? 0}
-                </div>
-                <div className="text-xs font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                  <span>Saved favorites</span>
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                <div className="flex items-end justify-between">
+                  <span className="text-3xl font-bold text-slate-900 dark:text-white">
+                    {stats?.statusCounts.liked ?? 0}
+                  </span>
+                  <span className="text-emerald-600 dark:text-emerald-400 text-xs font-medium mb-1 flex items-center gap-1">
+                    <span>Saved</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </div>
               </a>
 
               {/* Discarded Card */}
               <a
                 href="#/links/discarded"
-                className="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-2xs hover:shadow-md hover:border-rose-300 dark:hover:border-rose-700 transition-all duration-200"
+                className="group bg-white dark:bg-[#16191F] rounded-2xl p-5 border border-slate-200/80 dark:border-white/5 hover:border-rose-500/40 transition-all duration-200 shadow-xs"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  <span className="text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
                     Discarded
                   </span>
-                  <div className="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 group-hover:scale-110 transition-transform">
+                  <div className="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 group-hover:scale-110 transition-transform">
                     <Trash2 className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-slate-900 dark:text-white mb-1">
-                  {stats?.statusCounts.discarded ?? 0}
-                </div>
-                <div className="text-xs font-medium text-rose-600 dark:text-rose-400 flex items-center gap-1">
-                  <span>Skipped articles</span>
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                <div className="flex items-end justify-between">
+                  <span className="text-3xl font-bold text-slate-900 dark:text-white">
+                    {stats?.statusCounts.discarded ?? 0}
+                  </span>
+                  <span className="text-rose-600 dark:text-rose-400 text-xs font-medium mb-1 flex items-center gap-1">
+                    <span>Skipped</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </div>
               </a>
 
               {/* Reviewed / Discarded After Review Card */}
               <a
                 href="#/links/discarded_after_review"
-                className="group bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-2xs hover:shadow-md hover:border-amber-300 dark:hover:border-amber-700 transition-all duration-200"
+                className="group bg-white dark:bg-[#16191F] rounded-2xl p-5 border border-slate-200/80 dark:border-white/5 bg-gradient-to-br from-white dark:from-[#16191F] to-purple-50 dark:to-[#79378B]/10 hover:border-[#79378B]/40 transition-all duration-200 shadow-xs"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  <span className="text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
                     Reviewed
                   </span>
-                  <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform">
+                  <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform">
                     <EyeOff className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="text-3xl font-extrabold text-slate-900 dark:text-white mb-1">
-                  {stats?.statusCounts.discardedAfterReview ?? 0}
-                </div>
-                <div className="text-xs font-medium text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                  <span>Skimmed & closed</span>
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                <div className="flex items-end justify-between">
+                  <span className="text-3xl font-bold text-slate-900 dark:text-white">
+                    {stats?.statusCounts.discardedAfterReview ?? 0}
+                  </span>
+                  <span className="text-amber-600 dark:text-amber-400 text-xs font-medium mb-1 flex items-center gap-1">
+                    <span>Skimmed</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </div>
               </a>
             </>
@@ -260,18 +268,18 @@ export const DashboardPage: React.FC = () => {
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-brand-purple" />
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-[#93CD3F]" />
                 Top Priority for You
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-gray-500">
                 Highest scoring articles extracted from today's newsletter digests.
               </p>
             </div>
 
             <a
               href="#/links/awaiting"
-              className="text-xs font-bold text-brand-purple dark:text-purple-300 hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-[#79378B] dark:text-[#93CD3F] uppercase tracking-wider hover:underline flex items-center gap-1"
             >
               View All ({stats?.statusCounts.awaiting ?? 0})
               <ArrowRight className="w-3.5 h-3.5" />
@@ -284,12 +292,12 @@ export const DashboardPage: React.FC = () => {
               <LinkCardSkeleton />
             </div>
           ) : prioritizedLinks.length === 0 ? (
-            <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 text-center border border-slate-200/80 dark:border-slate-800">
-              <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto mb-2" />
-              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+            <div className="bg-white dark:bg-[#16191F] rounded-2xl p-8 text-center border border-slate-200/80 dark:border-white/5">
+              <CheckCircle2 className="w-10 h-10 text-[#93CD3F] mx-auto mb-2" />
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 No pending priority links
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-xs text-slate-500 dark:text-gray-400 mt-1">
                 You have triaged all top priority articles for now!
               </p>
             </div>
@@ -311,16 +319,16 @@ export const DashboardPage: React.FC = () => {
         {/* Recent Newsletters Feed (1 column on lg) */}
         <div className="space-y-4">
           <div>
-            <h2 className="text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-              <Mail className="w-5 h-5 text-brand-lime-dark dark:text-brand-lime" />
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Mail className="w-5 h-5 text-[#79378B] dark:text-[#93CD3F]" />
               Recent Newsletters
             </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-500 dark:text-gray-500">
               Ingested Medium email digests
             </p>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+          <div className="bg-white dark:bg-[#16191F] rounded-2xl border border-slate-200/80 dark:border-white/5 overflow-hidden shadow-2xs">
             {isLoading ? (
               <NewsletterListSkeleton />
             ) : !stats?.recentNewsletters || stats.recentNewsletters.length === 0 ? (
@@ -328,35 +336,49 @@ export const DashboardPage: React.FC = () => {
                 No newsletters ingested yet.
               </p>
             ) : (
-              <div className="space-y-3">
+              <div className="divide-y divide-slate-100 dark:divide-white/5">
                 {stats.recentNewsletters.map((nl) => (
                   <div
                     key={nl.id}
-                    className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors border border-slate-200/50 dark:border-slate-800 flex items-start gap-3"
+                    className="p-4 flex items-center gap-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
                   >
-                    <div className="p-2 rounded-lg bg-brand-purple/10 text-brand-purple shrink-0 mt-0.5">
-                      <Mail className="w-4 h-4" />
+                    <div className="w-10 h-10 bg-[#79378B]/20 rounded-lg flex items-center justify-center text-[#79378B] dark:text-[#93CD3F] font-bold text-lg shrink-0">
+                      {nl.title.charAt(0).toUpperCase()}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100 leading-snug line-clamp-2">
+                      <div className="text-xs font-bold truncate text-slate-900 dark:text-white">
                         {nl.title}
-                      </h3>
-                      <div className="flex items-center gap-1 text-[11px] text-slate-400 dark:text-slate-500 mt-1">
-                        <Clock className="w-3 h-3" />
-                        <span>
-                          {new Date(nl.receivedDate).toLocaleDateString(undefined, {
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                        </span>
+                      </div>
+                      <div className="text-[11px] text-slate-500 dark:text-gray-400 mt-0.5">
+                        {new Date(nl.receivedDate).toLocaleDateString(undefined, {
+                          month: 'short',
+                          day: 'numeric',
+                        })} • Medium Digest
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             )}
+          </div>
+
+          {/* Weekly Insight Box */}
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-[#79378B] to-[#5e2b6c] text-white shadow-xl shadow-[#79378B]/10">
+            <div>
+              <h4 className="font-bold mb-1 flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#93CD3F]" />
+                Weekly Insight
+              </h4>
+              <p className="text-xs text-purple-100 leading-relaxed opacity-90">
+                You're most active in Software Engineering & AI. Priority scoring adapts to your reading patterns.
+              </p>
+            </div>
+            <a
+              href="#/preferences"
+              className="mt-5 w-full py-2.5 bg-white text-[#79378B] hover:bg-gray-100 rounded-lg text-xs font-bold uppercase tracking-wider block text-center transition-colors"
+            >
+              Configure Engine
+            </a>
           </div>
         </div>
       </div>

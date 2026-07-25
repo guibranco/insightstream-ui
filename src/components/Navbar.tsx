@@ -44,23 +44,23 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
+    <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0A0B0D]/95 backdrop-blur-md border-b border-slate-200/80 dark:border-white/10 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Brand Logo */}
         <a
           href="#/"
-          className="flex items-center gap-2.5 font-bold text-lg text-slate-900 dark:text-white hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-brand-purple rounded-lg p-1 shrink-0"
+          className="flex items-center gap-3 font-bold text-lg text-slate-900 dark:text-white hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-[#79378B] rounded-lg p-1 shrink-0"
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-purple to-brand-purple-light text-white flex items-center justify-center shadow-xs">
-            <Sparkles className="w-5 h-5 text-brand-lime" />
+          <div className="w-10 h-10 rounded-xl bg-[#79378B] text-white flex items-center justify-center shadow-lg shadow-[#79378B]/20">
+            <Sparkles className="w-5 h-5 text-[#93CD3F]" />
           </div>
-          <span className="tracking-tight">
-            Insight<span className="text-brand-purple dark:text-purple-400">Stream</span>
+          <span className="tracking-tight text-xl font-bold">
+            Insight<span className="text-[#93CD3F]">Stream</span>
           </span>
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-1.5">
           {navItems.map((item) => {
             const isActive =
               currentHash === item.hash ||
@@ -71,13 +71,13 @@ export const Navbar: React.FC = () => {
               <a
                 key={item.hash}
                 href={item.hash}
-                className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all duration-200 ${
+                className={`px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all duration-200 ${
                   isActive
-                    ? 'bg-brand-purple/10 dark:bg-purple-950/60 text-brand-purple dark:text-purple-300 font-bold'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900'
+                    ? 'bg-[#79378B]/10 dark:bg-[#79378B]/20 text-[#79378B] dark:text-[#93CD3F] border border-[#79378B]/20 dark:border-[#79378B]/30 font-bold'
+                    : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-brand-purple dark:text-purple-300' : ''}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-[#79378B] dark:text-[#93CD3F]' : ''}`} />
                 {item.label}
               </a>
             );
@@ -96,7 +96,7 @@ export const Navbar: React.FC = () => {
             className={`hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border ${
               isRemoteApi
                 ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
-                : 'bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800'
+                : 'bg-purple-50 dark:bg-[#79378B]/20 text-purple-700 dark:text-[#93CD3F] border-purple-200 dark:border-[#79378B]/30'
             }`}
           >
             <Globe className="w-3 h-3 shrink-0" />
@@ -108,10 +108,10 @@ export const Navbar: React.FC = () => {
             onClick={cycleTheme}
             aria-label={`Current theme: ${theme}. Click to change.`}
             title={`Current theme: ${theme} (Effective: ${effectiveTheme})`}
-            className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors cursor-pointer border border-slate-200/60 dark:border-slate-800"
+            className="p-2 rounded-xl text-slate-600 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-[#16191F] transition-colors cursor-pointer border border-slate-200/60 dark:border-white/10"
           >
             {theme === 'light' && <Sun className="w-4 h-4 text-amber-500" />}
-            {theme === 'dark' && <Moon className="w-4 h-4 text-purple-400" />}
+            {theme === 'dark' && <Moon className="w-4 h-4 text-[#93CD3F]" />}
             {theme === 'auto' && <Laptop className="w-4 h-4 text-slate-400" />}
           </button>
 
@@ -120,12 +120,14 @@ export const Navbar: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors cursor-pointer"
+                className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl border border-slate-200/80 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-[#16191F] transition-colors cursor-pointer"
               >
-                <div className="w-6 h-6 rounded-full bg-brand-purple text-white flex items-center justify-center text-xs font-bold">
-                  {user.username.charAt(0).toUpperCase()}
+                <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#79378B] to-[#93CD3F] p-[1px]">
+                  <div className="w-full h-full rounded-full bg-[#0F1115] flex items-center justify-center font-bold text-xs text-white">
+                    {user.username.charAt(0).toUpperCase()}
+                  </div>
                 </div>
-                <span className="hidden sm:inline text-xs font-medium text-slate-700 dark:text-slate-200">
+                <span className="hidden sm:inline text-xs font-medium text-slate-700 dark:text-gray-200">
                   {user.username}
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
@@ -137,20 +139,20 @@ export const Navbar: React.FC = () => {
                     className="fixed inset-0 z-10"
                     onClick={() => setUserMenuOpen(false)}
                   />
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 py-1.5 z-20 animate-fade-in">
-                    <div className="px-4 py-2 border-b border-slate-100 dark:border-slate-800">
-                      <p className="text-xs font-bold text-slate-900 dark:text-slate-100">
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-[#16191F] rounded-2xl shadow-xl border border-slate-200 dark:border-white/10 py-1.5 z-20 animate-fade-in">
+                    <div className="px-4 py-2 border-b border-slate-100 dark:border-white/5">
+                      <p className="text-xs font-bold text-slate-900 dark:text-white">
                         {user.username}
                       </p>
-                      <p className="text-[11px] text-slate-400 dark:text-slate-500">
-                        Newsletter Curator
+                      <p className="text-[10px] text-slate-400 dark:text-gray-500 uppercase tracking-wider font-semibold">
+                        Premium Plan
                       </p>
                     </div>
 
                     <a
                       href="#/preferences"
                       onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 text-xs font-medium text-slate-700 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
                     >
                       <Settings className="w-4 h-4 text-slate-400" />
                       Preferences
