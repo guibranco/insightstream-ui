@@ -2,19 +2,38 @@ import axios from 'axios';
 import { mockBackend } from './mockBackend';
 import { LinkStatus, MediumLink, StatsData, PaginationMeta, User } from '../types';
 
-const rawApiUrl = import.meta.env.VITE_API_URL || '';
-const API_URL = rawApiUrl.trim();
+export function getStoredApiUrl(): string {
+  return localStorage.getItem('insightstream_custom_api_url') || '';
+}
+
+export function getEffectiveApiUrl(): string {
+  const custom = localStorage.getItem('insightstream_custom_api_url');
+  if (custom !== null && custom.trim() !== '') {
+    return custom.trim();
+  }
+  return (import.meta.env.VITE_API_URL || '').trim();
+}
+
+export function setCustomApiUrl(url: string): void {
+  const trimmed = url.trim();
+  if (trimmed) {
+    localStorage.setItem('insightstream_custom_api_url', trimmed);
+  } else {
+    localStorage.removeItem('insightstream_custom_api_url');
+  }
+}
 
 export const apiClient = axios.create({
-  baseURL: API_URL || '',
+  baseURL: getEffectiveApiUrl(),
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request interceptor: attach Bearer token from localStorage
+// Request interceptor: attach dynamic baseURL & Bearer token from localStorage
 apiClient.interceptors.request.use(
   (config) => {
+    config.baseURL = getEffectiveApiUrl();
     const token = localStorage.getItem('insightstream_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -41,7 +60,8 @@ apiClient.interceptors.response.use(
 
 export const authApi = {
   async login(username: string, password: string): Promise<{ success: boolean; token: string; user: User }> {
-    if (!API_URL) {
+    const activeUrl = getEffectiveApiUrl();
+    if (!activeUrl) {
       // Mock login implementation
       await new Promise(r => setTimeout(r, 400));
       if (!username.trim() || !password.trim()) {
@@ -59,7 +79,8 @@ export const authApi = {
 
 export const statsApi = {
   async getStats(): Promise<{ success: boolean; data: StatsData }> {
-    if (!API_URL) {
+    const activeUrl = getEffectiveApiUrl();
+    if (!activeUrl) {
       const data = await mockBackend.getStats();
       return { success: true, data };
     }
@@ -84,7 +105,8 @@ export const linksApi = {
     sort?: string;
     search?: string;
   }): Promise<{ success: boolean; data: MediumLink[]; pagination: PaginationMeta }> {
-    if (!API_URL) {
+    const activeUrl = getEffectiveApiUrl();
+    if (!activeUrl) {
       const res = await mockBackend.getLinks(params);
       return { success: true, data: res.data, pagination: res.pagination };
     }
@@ -100,7 +122,8 @@ export const linksApi = {
   },
 
   async getPrioritized(): Promise<{ success: boolean; data: MediumLink[] }> {
-    if (!API_URL) {
+    const activeUrl = getEffectiveApiUrl();
+    if (!activeUrl) {
       const data = await mockBackend.getPrioritizedLinks();
       return { success: true, data };
     }
@@ -116,7 +139,8 @@ export const linksApi = {
   },
 
   async updateStatus(id: string, status: LinkStatus): Promise<{ success: boolean; message: string }> {
-    if (!API_URL) {
+    const activeUrl = getEffectiveApiUrl();
+    if (!activeUrl) {
       return await mockBackend.updateLinkStatus(id, status);
     }
 

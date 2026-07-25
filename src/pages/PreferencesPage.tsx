@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { usePreferences } from '../context/PreferencesContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
+import { getStoredApiUrl, getEffectiveApiUrl, setCustomApiUrl } from '../services/apiClient';
 import {
   Settings,
   Sun,
@@ -15,7 +16,8 @@ import {
   Database,
   CheckCircle2,
   RefreshCw,
-  User as UserIcon,
+  Save,
+  RotateCcw,
 } from 'lucide-react';
 
 export const PreferencesPage: React.FC = () => {
@@ -25,16 +27,44 @@ export const PreferencesPage: React.FC = () => {
   const { showToast } = useToast();
 
   const [isTestingApi, setIsTestingApi] = useState(false);
+  const [apiUrlInput, setApiUrlInput] = useState(getStoredApiUrl() || getEffectiveApiUrl());
+  const [activeEffectiveUrl, setActiveEffectiveUrl] = useState(getEffectiveApiUrl());
 
-  const rawApiUrl = import.meta.env.VITE_API_URL || '';
-  const isRemoteApi = Boolean(rawApiUrl.trim());
+  useEffect(() => {
+    const handleUrlChange = () => {
+      setActiveEffectiveUrl(getEffectiveApiUrl());
+      setApiUrlInput(getStoredApiUrl() || getEffectiveApiUrl());
+    };
+    window.addEventListener('insightstream_api_url_changed', handleUrlChange);
+    return () => {
+      window.removeEventListener('insightstream_api_url_changed', handleUrlChange);
+    };
+  }, []);
+
+  const handleSaveApiUrl = (e: React.FormEvent) => {
+    e.preventDefault();
+    setCustomApiUrl(apiUrlInput);
+    setActiveEffectiveUrl(getEffectiveApiUrl());
+    window.dispatchEvent(new Event('insightstream_api_url_changed'));
+    showToast('API URL updated and saved to localStorage', 'success');
+  };
+
+  const handleResetApiUrl = () => {
+    setCustomApiUrl('');
+    setApiUrlInput('');
+    setActiveEffectiveUrl(getEffectiveApiUrl());
+    window.dispatchEvent(new Event('insightstream_api_url_changed'));
+    showToast('Reset custom API URL', 'info');
+  };
+
+  const isRemoteApi = Boolean(activeEffectiveUrl.trim());
 
   const handleTestApi = async () => {
     setIsTestingApi(true);
     await new Promise((r) => setTimeout(r, 600));
     setIsTestingApi(false);
     if (isRemoteApi) {
-      showToast(`Connected to remote API (${rawApiUrl})`, 'success');
+      showToast(`Connected to API (${activeEffectiveUrl})`, 'success');
     } else {
       showToast('Offline Mode Active: Persisting data to LocalStorage', 'info');
     }
@@ -182,12 +212,12 @@ export const PreferencesPage: React.FC = () => {
           </div>
         </div>
 
-        {/* API Integration Diagnostics */}
-        <div className="bg-white dark:bg-[#16191F] rounded-2xl p-6 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4">
+        {/* API Integration Diagnostics & Configuration */}
+        <div className="bg-white dark:bg-[#16191F] rounded-2xl p-6 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Globe className="w-5 h-5 text-emerald-500" />
-              API Connection Status
+              <Settings className="w-5 h-5 text-[#79378B] dark:text-[#93CD3F]" />
+              REST API Configuration
             </h2>
 
             <button
@@ -200,19 +230,63 @@ export const PreferencesPage: React.FC = () => {
             </button>
           </div>
 
+          <form onSubmit={handleSaveApiUrl} className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-2 flex items-center justify-between">
+                <span>Custom API Endpoint URL</span>
+                {Boolean(getStoredApiUrl()) && (
+                  <span className="text-[10px] font-semibold text-[#79378B] dark:text-[#93CD3F] bg-[#79378B]/10 dark:bg-[#79378B]/20 px-2 py-0.5 rounded-md">
+                    Custom LocalStorage Override Active
+                  </span>
+                )}
+              </label>
+              <div className="flex flex-col sm:flex-row items-stretch gap-2">
+                <input
+                  type="url"
+                  value={apiUrlInput}
+                  onChange={(e) => setApiUrlInput(e.target.value)}
+                  placeholder="https://api.yourdomain.com"
+                  className="flex-1 px-4 py-2.5 bg-slate-50 dark:bg-[#0F1115] border border-slate-200 dark:border-white/10 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:border-[#79378B] dark:focus:border-[#93CD3F] font-mono transition-all"
+                />
+                <div className="flex items-center gap-2">
+                  <button
+                    type="submit"
+                    className="px-4 py-2.5 bg-[#79378B] hover:bg-[#5e2b6c] text-white text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs whitespace-nowrap"
+                  >
+                    <Save className="w-3.5 h-3.5 text-[#93CD3F]" />
+                    Save URL
+                  </button>
+                  {Boolean(getStoredApiUrl()) && (
+                    <button
+                      type="button"
+                      onClick={handleResetApiUrl}
+                      className="px-3.5 py-2.5 border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/5 text-slate-600 dark:text-gray-300 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      Reset
+                    </button>
+                  )}
+                </div>
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-gray-400 mt-1.5">
+                Saved in your browser&apos;s <code className="text-[#79378B] dark:text-[#93CD3F] font-mono">localStorage</code>. Leave blank to run in offline local storage mode.
+              </p>
+            </div>
+          </form>
+
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#0F1115] border border-slate-200/60 dark:border-white/5 space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-500 dark:text-gray-400">REST API Origin (`VITE_API_URL`):</span>
+              <span className="text-slate-500 dark:text-gray-400">Effective API URL:</span>
               <span className="font-mono font-bold text-slate-800 dark:text-gray-200">
-                {rawApiUrl || '(Empty - Fallback Mock LocalStorage Mode)'}
+                {activeEffectiveUrl || '(Empty - Fallback LocalStorage Mode)'}
               </span>
             </div>
 
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-500 dark:text-gray-400">Authentication Mode:</span>
-              <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                <Database className="w-3.5 h-3.5" />
-                Bearer JWT Token (LocalStorage)
+              <span className="text-slate-500 dark:text-gray-400">Active Connection Mode:</span>
+              <span className={`font-semibold flex items-center gap-1 ${activeEffectiveUrl ? 'text-emerald-600 dark:text-emerald-400' : 'text-purple-600 dark:text-[#93CD3F]'}`}>
+                {activeEffectiveUrl ? <Globe className="w-3.5 h-3.5" /> : <Database className="w-3.5 h-3.5" />}
+                {activeEffectiveUrl ? (getStoredApiUrl() ? 'Custom API (localStorage)' : 'Environment API') : 'Local Storage Mode'}
               </span>
             </div>
           </div>
