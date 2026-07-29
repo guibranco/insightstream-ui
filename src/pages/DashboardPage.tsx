@@ -123,7 +123,7 @@ export const DashboardPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-24 md:pb-12">
       {/* Greeting Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#79378B]/20 via-[#79378B]/10 to-[#16191F] p-6 rounded-3xl border border-[#79378B]/30 shadow-lg">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#79378B]/20 via-[#79378B]/10 to-slate-100 dark:to-[#16191F] p-6 rounded-3xl border border-[#79378B]/30 shadow-lg">
         <div>
           <div className="inline-flex items-center gap-2 text-xs font-bold text-[#93CD3F] uppercase tracking-widest mb-1">
             <Sparkles className="w-3.5 h-3.5 text-[#93CD3F]" />
