@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-brand-purple: #79378B;
   --color-brand-purple-dark: #5e2b6c;
