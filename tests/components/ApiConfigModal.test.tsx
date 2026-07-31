@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, act, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ApiConfigModal } from '../../src/components/ApiConfigModal';
 import { getStoredApiUrl } from '../../src/services/apiClient';
@@ -38,19 +38,25 @@ describe('ApiConfigModal', () => {
   });
 
   it('saves a custom API URL, dispatches an update event, and calls onSaved', async () => {
-    vi.useFakeTimers();
+    // @testing-library/user-event's internal wait/flush loop does not play
+    // well with vitest's fake timers (it hangs indefinitely even with an
+    // `advanceTimers` option configured). Type with real timers first, then
+    // switch to fake timers only for the button click and the auto-close
+    // timeout, using fireEvent for that click to avoid the incompatibility.
     const onSaved = vi.fn();
     const onClose = vi.fn();
     const eventSpy = vi.fn();
     window.addEventListener('insightstream_api_url_changed', eventSpy);
 
-    const user = userEvent.setup({ delay: null, advanceTimers: vi.advanceTimersByTime });
+    const user = userEvent.setup();
     render(<ApiConfigModal isOpen onClose={onClose} onSaved={onSaved} />);
 
     const input = screen.getByPlaceholderText('https://api.yourdomain.com');
     await user.clear(input);
     await user.type(input, 'https://api.example.com');
-    await user.click(screen.getByText('Save API URL'));
+
+    vi.useFakeTimers();
+    fireEvent.click(screen.getByText('Save API URL'));
 
     expect(getStoredApiUrl()).toBe('https://api.example.com');
     expect(eventSpy).toHaveBeenCalled();
@@ -66,16 +72,14 @@ describe('ApiConfigModal', () => {
   });
 
   it('shows a Reset button and resets the custom URL when clicked', async () => {
-    vi.useFakeTimers();
     localStorage.setItem('insightstream_custom_api_url', 'https://api.example.com');
     const onSaved = vi.fn();
     const onClose = vi.fn();
 
-    const user = userEvent.setup({ delay: null, advanceTimers: vi.advanceTimersByTime });
     render(<ApiConfigModal isOpen onClose={onClose} onSaved={onSaved} />);
 
-    const resetButton = screen.getByText('Reset');
-    await user.click(resetButton);
+    vi.useFakeTimers();
+    fireEvent.click(screen.getByText('Reset'));
 
     expect(getStoredApiUrl()).toBe('');
     expect(onSaved).toHaveBeenCalled();

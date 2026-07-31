@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor, act, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PreferencesPage } from '../../src/pages/PreferencesPage';
 import { ThemeProvider } from '../../src/context/ThemeContext';
@@ -90,14 +90,19 @@ describe('PreferencesPage', () => {
   });
 
   it('tests the API connection and reports local storage mode when offline', async () => {
-    vi.useFakeTimers();
-    const user = userEvent.setup({ delay: null, advanceTimers: vi.advanceTimersByTime });
+    // @testing-library/user-event hangs indefinitely when combined with
+    // vitest's fake timers, so the click is dispatched via fireEvent instead.
     renderPage();
 
-    await user.click(screen.getByText('Test Connection'));
+    vi.useFakeTimers();
+    fireEvent.click(screen.getByText('Test Connection'));
     await act(async () => {
       await vi.advanceTimersByTimeAsync(600);
     });
+    // testing-library's waitFor polls via setInterval/setTimeout internally,
+    // which would also be faked and never fire; switch back to real timers
+    // now that the awaited state update has already flushed.
+    vi.useRealTimers();
 
     await waitFor(() =>
       expect(

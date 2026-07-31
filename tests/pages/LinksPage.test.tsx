@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor, act, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LinksPage } from '../../src/pages/LinksPage';
 import { ToastProvider } from '../../src/context/ToastContext';
@@ -112,7 +112,9 @@ describe('LinksPage', () => {
   });
 
   it('debounces search input before refetching', async () => {
-    const user = userEvent.setup({ delay: null, advanceTimers: vi.advanceTimersByTime });
+    // @testing-library/user-event hangs indefinitely when combined with
+    // vitest's fake timers, so the debounced setTimeout is triggered via
+    // fireEvent instead once fake timers are enabled.
     renderLinksPage();
 
     await waitFor(() => expect(screen.getByText('Sample Article')).toBeInTheDocument());
@@ -120,7 +122,7 @@ describe('LinksPage', () => {
 
     vi.useFakeTimers();
     const searchInput = screen.getByPlaceholderText('Search titles, authors, or domain URLs...');
-    await user.type(searchInput, 'agentic');
+    fireEvent.change(searchInput, { target: { value: 'agentic' } });
     await act(async () => {
       await vi.advanceTimersByTimeAsync(300);
     });

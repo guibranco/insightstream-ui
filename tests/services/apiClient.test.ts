@@ -40,6 +40,14 @@ import {
   setCustomApiUrl,
 } from '../../src/services/apiClient';
 
+// apiClient.ts registers its interceptors once, at module-load time. Capture
+// those handler functions now, before any test's `vi.clearAllMocks()` wipes
+// the `.mock.calls` history that recorded them.
+const [requestOnFulfilled, requestOnRejected] = mockAxiosInstance.interceptors.request.use.mock
+  .calls[0];
+const [responseOnFulfilled, responseOnRejected] = mockAxiosInstance.interceptors.response.use.mock
+  .calls[0];
+
 describe('apiClient url helpers', () => {
   it('getStoredApiUrl returns empty string when nothing is stored', () => {
     expect(getStoredApiUrl()).toBe('');
@@ -68,31 +76,27 @@ describe('apiClient interceptors', () => {
   });
 
   it('registers a request interceptor that attaches the bearer token and baseURL', () => {
-    const [onFulfilled] = mockAxiosInstance.interceptors.request.use.mock.calls[0];
     localStorage.setItem('insightstream_token', 'tok-123');
     setCustomApiUrl('https://api.example.com');
 
-    const config = onFulfilled({ headers: {} });
+    const config = requestOnFulfilled({ headers: {} });
 
     expect(config.baseURL).toBe('https://api.example.com');
     expect(config.headers.Authorization).toBe('Bearer tok-123');
   });
 
   it('request interceptor leaves Authorization unset without a stored token', () => {
-    const [onFulfilled] = mockAxiosInstance.interceptors.request.use.mock.calls[0];
-    const config = onFulfilled({ headers: {} });
+    const config = requestOnFulfilled({ headers: {} });
     expect(config.headers.Authorization).toBeUndefined();
   });
 
   it('request interceptor error handler rejects with the original error', async () => {
-    const [, onRejected] = mockAxiosInstance.interceptors.request.use.mock.calls[0];
-    await expect(onRejected('boom')).rejects.toBe('boom');
+    await expect(requestOnRejected('boom')).rejects.toBe('boom');
   });
 
   it('response interceptor passes through successful responses', () => {
-    const [onFulfilled] = mockAxiosInstance.interceptors.response.use.mock.calls[0];
     const response = { data: 'ok' };
-    expect(onFulfilled(response)).toBe(response);
+    expect(responseOnFulfilled(response)).toBe(response);
   });
 
   it('response interceptor clears session and redirects to login on 401', async () => {
@@ -100,19 +104,17 @@ describe('apiClient interceptors', () => {
     localStorage.setItem('insightstream_user', '{"id":"1"}');
     window.location.hash = '#/';
 
-    const [, onRejected] = mockAxiosInstance.interceptors.response.use.mock.calls[0];
     const error = { response: { status: 401 } };
 
-    await expect(onRejected(error)).rejects.toBe(error);
+    await expect(responseOnRejected(error)).rejects.toBe(error);
     expect(localStorage.getItem('insightstream_token')).toBeNull();
     expect(localStorage.getItem('insightstream_user')).toBeNull();
     expect(window.location.hash).toBe('#/login');
   });
 
   it('response interceptor ignores non-401 errors', async () => {
-    const [, onRejected] = mockAxiosInstance.interceptors.response.use.mock.calls[0];
     const error = { response: { status: 500 } };
-    await expect(onRejected(error)).rejects.toBe(error);
+    await expect(responseOnRejected(error)).rejects.toBe(error);
   });
 });
 
