@@ -20,7 +20,7 @@
     "@google/genai": "^2.4.0",
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^6.0.4",
-    "axios": "^1.18.1",
+    "axios": "^1.19.0",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "lucide-react": "^1.27.0",
