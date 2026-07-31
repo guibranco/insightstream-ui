@@ -91,7 +91,7 @@ describe('PreferencesPage', () => {
 
   it('tests the API connection and reports local storage mode when offline', async () => {
     vi.useFakeTimers();
-    const user = userEvent.setup({ delay: null });
+    const user = userEvent.setup({ delay: null, advanceTimers: vi.advanceTimersByTime });
     renderPage();
 
     await user.click(screen.getByText('Test Connection'));

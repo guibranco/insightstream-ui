@@ -4,11 +4,15 @@ import { render, screen, waitFor } from '@testing-library/react';
 import App from '../src/App';
 import { StatsData } from '../src/types';
 
-vi.mock('../src/services/apiClient', () => ({
-  authApi: { login: vi.fn() },
-  statsApi: { getStats: vi.fn() },
-  linksApi: { getLinks: vi.fn(), getPrioritized: vi.fn(), updateStatus: vi.fn() },
-}));
+vi.mock('../src/services/apiClient', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/services/apiClient')>();
+  return {
+    ...actual,
+    authApi: { login: vi.fn() },
+    statsApi: { getStats: vi.fn() },
+    linksApi: { getLinks: vi.fn(), getPrioritized: vi.fn(), updateStatus: vi.fn() },
+  };
+});
 
 import { statsApi, linksApi } from '../src/services/apiClient';
 

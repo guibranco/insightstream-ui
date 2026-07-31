@@ -112,7 +112,7 @@ describe('LinksPage', () => {
   });
 
   it('debounces search input before refetching', async () => {
-    const user = userEvent.setup({ delay: null });
+    const user = userEvent.setup({ delay: null, advanceTimers: vi.advanceTimersByTime });
     renderLinksPage();
 
     await waitFor(() => expect(screen.getByText('Sample Article')).toBeInTheDocument());

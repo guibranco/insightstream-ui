@@ -1,6 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const mockAxiosInstance = {
+// apiClient.ts calls axios.create() eagerly at module load time, which
+// happens during the hoisted-import phase before this file's own top-level
+// statements run. vi.hoisted() ensures this value is initialized before the
+// vi.mock factory below needs it, avoiding a TDZ ReferenceError.
+const mockAxiosInstance = vi.hoisted(() => ({
   get: vi.fn(),
   post: vi.fn(),
   put: vi.fn(),
@@ -8,7 +12,7 @@ const mockAxiosInstance = {
     request: { use: vi.fn() },
     response: { use: vi.fn() },
   },
-};
+}));
 
 vi.mock('axios', () => ({
   default: {

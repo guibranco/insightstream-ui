@@ -38,8 +38,16 @@ describe('LoginPage', () => {
     const user = userEvent.setup();
     render(<LoginPage />);
 
-    await user.clear(screen.getByPlaceholderText('Enter username'));
-    await user.clear(screen.getByPlaceholderText('••••••••'));
+    // Inputs are `required`, so a truly empty value blocks native HTML5
+    // form submission before React ever sees a submit event. Using a
+    // whitespace-only value satisfies `required` while still failing the
+    // component's own `.trim()` check, exercising the validation branch.
+    const usernameInput = screen.getByPlaceholderText('Enter username');
+    const passwordInput = screen.getByPlaceholderText('••••••••');
+    await user.clear(usernameInput);
+    await user.type(usernameInput, ' ');
+    await user.clear(passwordInput);
+    await user.type(passwordInput, ' ');
     await user.click(screen.getByText('Sign In to Dashboard'));
 
     expect(

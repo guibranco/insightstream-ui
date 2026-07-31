@@ -44,7 +44,7 @@ describe('ApiConfigModal', () => {
     const eventSpy = vi.fn();
     window.addEventListener('insightstream_api_url_changed', eventSpy);
 
-    const user = userEvent.setup({ delay: null });
+    const user = userEvent.setup({ delay: null, advanceTimers: vi.advanceTimersByTime });
     render(<ApiConfigModal isOpen onClose={onClose} onSaved={onSaved} />);
 
     const input = screen.getByPlaceholderText('https://api.yourdomain.com');
@@ -71,7 +71,7 @@ describe('ApiConfigModal', () => {
     const onSaved = vi.fn();
     const onClose = vi.fn();
 
-    const user = userEvent.setup({ delay: null });
+    const user = userEvent.setup({ delay: null, advanceTimers: vi.advanceTimersByTime });
     render(<ApiConfigModal isOpen onClose={onClose} onSaved={onSaved} />);
 
     const resetButton = screen.getByText('Reset');

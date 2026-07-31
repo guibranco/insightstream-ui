@@ -103,7 +103,7 @@ describe('ThemeContext', () => {
 
     expect(mql.addEventListener).toHaveBeenCalledWith('change', expect.any(Function));
 
-    await user.click(screen.getByText('light'));
+    await user.click(screen.getByRole('button', { name: 'light' }));
     expect(mql.removeEventListener).toHaveBeenCalled();
   });
 
