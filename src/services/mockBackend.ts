@@ -159,11 +159,11 @@ function loadLinks(): MediumLink[] {
     const raw = localStorage.getItem(STORAGE_KEY_LINKS);
     if (!raw) {
       localStorage.setItem(STORAGE_KEY_LINKS, JSON.stringify(INITIAL_LINKS));
-      return INITIAL_LINKS;
+      return JSON.parse(JSON.stringify(INITIAL_LINKS));
     }
     return JSON.parse(raw);
   } catch (err) {
-    return INITIAL_LINKS;
+    return JSON.parse(JSON.stringify(INITIAL_LINKS));
   }
 }
 
@@ -180,11 +180,11 @@ function loadNewsletters(): Newsletter[] {
     const raw = localStorage.getItem(STORAGE_KEY_NEWSLETTERS);
     if (!raw) {
       localStorage.setItem(STORAGE_KEY_NEWSLETTERS, JSON.stringify(INITIAL_NEWSLETTERS));
-      return INITIAL_NEWSLETTERS;
+      return JSON.parse(JSON.stringify(INITIAL_NEWSLETTERS));
     }
     return JSON.parse(raw);
   } catch (err) {
-    return INITIAL_NEWSLETTERS;
+    return JSON.parse(JSON.stringify(INITIAL_NEWSLETTERS));
   }
 }
 
