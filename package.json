@@ -28,7 +28,7 @@
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
     "react-router-dom": "^7.18.2",
-    "vite": "^8.1.5"
+    "vite": "^8.2.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^7.0.0",
@@ -44,7 +44,7 @@
     "tailwindcss": "^4.1.14",
     "tsx": "^4.23.11",
     "typescript": "~7.0.2",
-    "vite": "^8.1.5",
+    "vite": "^8.2.0",
     "vitest": "^3.0.5",
     "@types/express": "^5.0.6"
   }
